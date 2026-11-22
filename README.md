@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # FlowDesk
 
 FlowDesk is a lightweight, customizable command palette for Windows, designed to bring everyday tools, applications, and productivity features into one convenient interface.
