@@ -1,0 +1,734 @@
+<Window x:Class="FlowDeck.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="FlowDeck"
+        Height="620"
+        Width="980"
+        MinHeight="520"
+        MinWidth="760"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="CanResize"
+        ShowInTaskbar="False"
+        PreviewMouseWheel="Window_PreviewMouseWheel"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        RenderOptions.BitmapScalingMode="HighQuality"
+        RenderOptions.ClearTypeHint="Enabled">
+
+    <Window.Resources>
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Padding" Value="14,0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#73FFFFFF"/>
+            <Setter Property="Background" Value="#E07C9DF8"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Setter Property="RenderTransform">
+                <Setter.Value><ScaleTransform ScaleX="1" ScaleY="1"/></Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonSurface" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="9" RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform><ScaleTransform ScaleX="1" ScaleY="1"/></Border.RenderTransform>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonSurface" Property="Background" Value="#F08DAAFF"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonSurface" Property="RenderTransform">
+                                    <Setter.Value><ScaleTransform ScaleX="0.97" ScaleY="0.97"/></Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ButtonSurface" Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.025" Duration="0:0:0.16">
+                                <DoubleAnimation.EasingFunction><QuadraticEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.025" Duration="0:0:0.16">
+                                <DoubleAnimation.EasingFunction><QuadraticEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.18"/>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.18"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Background" Value="#20FFFFFF"/>
+            <Setter Property="BorderBrush" Value="#35FFFFFF"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonSurface" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="9" RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform><ScaleTransform ScaleX="1" ScaleY="1"/></Border.RenderTransform>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonSurface" Property="Background" Value="#32FFFFFF"/>
+                                <Setter TargetName="ButtonSurface" Property="BorderBrush" Value="#55FFFFFF"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonSurface" Property="RenderTransform">
+                                    <Setter.Value><ScaleTransform ScaleX="0.97" ScaleY="0.97"/></Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.018" Duration="0:0:0.16"/>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.018" Duration="0:0:0.16"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.18"/>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.18"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="WindowActionBase" TargetType="Button">
+            <Setter Property="Width" Value="18"/>
+            <Setter Property="Height" Value="18"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="#33000000"/>
+            <Setter Property="FontSize" Value="9"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Setter Property="RenderTransform">
+                <Setter.Value><ScaleTransform ScaleX="1" ScaleY="1"/></Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#B3000000"/>
+                    <Setter Property="RenderTransform">
+                        <Setter.Value><ScaleTransform ScaleX="1.12" ScaleY="1.12"/></Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="RenderTransform">
+                        <Setter.Value><ScaleTransform ScaleX="0.88" ScaleY="0.88"/></Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="SidebarButton" TargetType="Button">
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="Margin" Value="10,2"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="Foreground" Value="#DFE5EC"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                            <ContentPresenter VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#20FFFFFF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="CloseActionButton" TargetType="Button" BasedOn="{StaticResource WindowActionBase}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse Fill="{TemplateBinding Background}" Stroke="#60FFFFFF" StrokeThickness="0.7"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="MinimizeActionButton" TargetType="Button" BasedOn="{StaticResource WindowActionBase}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" CornerRadius="9" BorderBrush="#60FFFFFF" BorderThickness="0.7"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-2,0,0"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SuggestionItem" TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="4,2"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="#F6FFFFFF"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="ItemSurface" Background="Transparent" BorderBrush="Transparent"
+                                BorderThickness="1" CornerRadius="8" Margin="0" RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                            </Border.RenderTransform>
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ItemSurface" Property="Background" Value="#38FFFFFF"/>
+                                <Setter TargetName="ItemSurface" Property="BorderBrush" Value="#44FFFFFF"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="ItemSurface" Property="Background" Value="#2EFFFFFF"/>
+                                <Setter TargetName="ItemSurface" Property="BorderBrush" Value="#58FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SuggestionList" TargetType="ListBox">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#38FFFFFF"/>
+            <Setter Property="Background" Value="#EB252D37"/>
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10" Padding="{TemplateBinding Padding}"
+                                ClipToBounds="True">
+                            <ScrollViewer Focusable="False" CanContentScroll="False"
+                                          VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+                                <ItemsPresenter/>
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard x:Name="BackgroundGradientAnimation" RepeatBehavior="Forever">
+                    <DoubleAnimation Storyboard.TargetName="BackgroundGradientRotation"
+                                     Storyboard.TargetProperty="Angle"
+                                     From="0" To="360" Duration="0:0:18">
+                    </DoubleAnimation>
+                    <DoubleAnimation Storyboard.TargetName="BrandGradientMotion"
+                                     Storyboard.TargetProperty="X"
+                                     From="-1" To="1" Duration="0:0:7" AutoReverse="True">
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Border x:Name="WindowSurface" CornerRadius="14" BorderBrush="#48FFFFFF" BorderThickness="1"
+            Opacity="1" RenderTransformOrigin="0.5,0.5">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <LinearGradientBrush.RelativeTransform>
+                    <RotateTransform x:Name="BackgroundGradientRotation" Angle="0" CenterX="0.5" CenterY="0.5"/>
+                </LinearGradientBrush.RelativeTransform>
+                <GradientStop x:Name="GradientColor1" Color="#D91C244A" Offset="0"/>
+                <GradientStop x:Name="GradientColor2" Color="#D9321F5C" Offset="0.25"/>
+                <GradientStop x:Name="GradientColor3" Color="#D91A465C" Offset="0.52"/>
+                <GradientStop x:Name="GradientColor4" Color="#D9402A69" Offset="0.78"/>
+                <GradientStop x:Name="GradientColor5" Color="#D9222942" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        <Border.RenderTransform><ScaleTransform ScaleX="1" ScaleY="1"/></Border.RenderTransform>
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="18" ShadowDepth="5" Direction="315" Opacity="0.42" Color="#000000"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="#A51D2630" CornerRadius="13,0,0,13"
+                    BorderBrush="#18FFFFFF" BorderThickness="0,0,1,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="112"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Margin="12,0,12,8" Background="Transparent" BorderBrush="#20FFFFFF"
+                            BorderThickness="0,0,0,1" MouseLeftButtonDown="TitleBar_MouseDown">
+                        <Grid>
+                            <Button x:Name="CloseButton" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,8,0,0"
+                                    Style="{StaticResource CloseActionButton}" Width="24" Height="24"
+                                    FontSize="12" Background="#FF5F57" Content="×" Click="Close_Click" ToolTip="Close"/>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,12,0,0">
+                                <TextBlock x:Name="BrandText" Text="Flow Desk" Margin="0,0,0,10" HorizontalAlignment="Center"
+                                           FontSize="30" FontWeight="SemiBold" FontFamily="Segoe UI Semibold">
+                                    <TextBlock.Foreground>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <LinearGradientBrush.RelativeTransform>
+                                                <TranslateTransform x:Name="BrandGradientMotion" X="-1"/>
+                                            </LinearGradientBrush.RelativeTransform>
+                                            <GradientStop x:Name="BrandGradient1" Color="#FFF5FDFF" Offset="0"/>
+                                            <GradientStop x:Name="BrandGradient2" Color="#CBE8FF" Offset="0.35"/>
+                                            <GradientStop x:Name="BrandGradient3" Color="#F2FBFF" Offset="0.7"/>
+                                            <GradientStop x:Name="BrandGradient4" Color="#D7ECFF" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </TextBlock.Foreground>
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <StackPanel Grid.Row="1" Margin="0,8,0,0">
+                        <TextBlock x:Name="AppDiscoveryTitle" Text="APP DISCOVERY" Margin="18,12,18,8" FontSize="11" FontWeight="SemiBold" Foreground="#78FFFFFF" TextWrapping="Wrap"/>
+                        <TextBlock x:Name="AppDiscoveryDescription" Text="Searching installed .exe files and Start Menu shortcuts." Margin="18,0,18,14" Foreground="#90FFFFFF" FontSize="12" TextWrapping="Wrap"/>
+                        <Border Margin="12,0,12,8" Background="#18FFFFFF" BorderBrush="#30FFFFFF" BorderThickness="1" CornerRadius="8" Padding="12">
+                            <StackPanel>
+                                <TextBlock x:Name="DiscoveredAppCountText" Text="Scanning apps..." Foreground="White" FontWeight="SemiBold" FontSize="14" TextWrapping="Wrap"/>
+                                <TextBlock x:Name="QuickAppsTitle" Text="QUICK APPS" Margin="0,12,0,6"
+                                           FontSize="10" FontWeight="SemiBold" Foreground="#78FFFFFF"/>
+                                <ListBox x:Name="QuickAppList" ItemsSource="{Binding QuickApps}" MaxHeight="240" Background="Transparent"
+                                         BorderThickness="0" Padding="0" Foreground="White"
+                                         SelectionChanged="QuickAppList_SelectionChanged"
+                                         PreviewMouseWheel="QuickAppList_PreviewMouseWheel"
+                                         ScrollViewer.CanContentScroll="False"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                         ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                                    <ListBox.RenderTransform>
+                                        <TranslateTransform x:Name="QuickAppListOffset" Y="8"/>
+                                    </ListBox.RenderTransform>
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Padding" Value="0"/>
+                                            <Setter Property="Margin" Value="0,2"/>
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListBoxItem">
+                                                        <Border x:Name="QuickAppSurface" Background="#12FFFFFF"
+                                                                BorderBrush="#18FFFFFF" BorderThickness="1"
+                                                                CornerRadius="7" Padding="8,7">
+                                                            <ContentPresenter/>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter TargetName="QuickAppSurface" Property="Background" Value="#28FFFFFF"/>
+                                                            </Trigger>
+                                                            <Trigger Property="IsSelected" Value="True">
+                                                                <Setter TargetName="QuickAppSurface" Property="Background" Value="#32FFFFFF"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" FontSize="12" FontWeight="SemiBold"
+                                                       Foreground="#F4FFFFFF" TextTrimming="CharacterEllipsis"/>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                                <TextBlock x:Name="QuickAppsEmptyText" Text="Scanning for apps..."
+                                           FontSize="11" Foreground="#90FFFFFF" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <Border Grid.Row="2" Margin="12" Padding="12" CornerRadius="10"
+                            Background="#16FFFFFF" BorderBrush="#18FFFFFF" BorderThickness="1">
+                        <UniformGrid Columns="3">
+                            <Button x:Name="CommandsButton" Height="38" Margin="0,0,4,0"
+                                    Style="{StaticResource SecondaryButton}" Content="/"
+                                    FontSize="17" Padding="0" Click="CommandsButton_Click"
+                                    ToolTip="Commands"/>
+                            <Button x:Name="SettingsButton" Height="38" Margin="2,0"
+                                    Style="{StaticResource SecondaryButton}" Content="⚙"
+                                    FontSize="16" Padding="0" Click="SettingsButton_Click"
+                                    ToolTip="Settings"/>
+                            <Button x:Name="SupportButton" Height="38" Margin="4,0,0,0"
+                                    Style="{StaticResource SecondaryButton}" Content="♥" FontSize="16"
+                                    Padding="0" Click="SupportButton_Click"
+                                    ToolTip="Support FlowDeck on Ko-fi"/>
+                        </UniformGrid>
+                    </Border>
+
+                    <Border x:Name="SettingsPanel" Grid.RowSpan="3" Margin="0" CornerRadius="13,0,0,13"
+                            Background="#F0232A35" BorderBrush="#20FFFFFF" BorderThickness="0,0,1,0"
+                            Visibility="Collapsed" Panel.ZIndex="20"
+                            Opacity="0" RenderTransformOrigin="0.5,0.5">
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <TranslateTransform x:Name="SettingsPanelOffset" X="-24"/>
+                                <ScaleTransform x:Name="SettingsPanelScale" ScaleX="0.97" ScaleY="0.97"/>
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="112"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Border Grid.Row="0" Margin="12,0,12,8" BorderBrush="#20FFFFFF"
+                                    BorderThickness="0,0,0,1">
+                                <DockPanel>
+                                    <Button x:Name="SettingsCloseButton" DockPanel.Dock="Right"
+                                            Width="32" Height="32" VerticalAlignment="Center"
+                                            Content="‹" Style="{StaticResource SecondaryButton}"
+                                            FontSize="16" Padding="0" Click="SettingsCloseButton_Click"
+                                            ToolTip="Close settings"/>
+                                    <TextBlock Text="Settings" VerticalAlignment="Center" Margin="6,0,0,0"
+                                               FontSize="20" FontWeight="SemiBold" Foreground="White"/>
+                                </DockPanel>
+                            </Border>
+
+                            <ScrollViewer Grid.Row="1" Margin="12,8,12,12"
+                                          VerticalScrollBarVisibility="Hidden"
+                                          HorizontalScrollBarVisibility="Disabled">
+                                <StackPanel>
+                                    <TextBlock Text="APPEARANCE" FontSize="11" FontWeight="SemiBold"
+                                               Foreground="#78FFFFFF" Margin="6,8,6,8"/>
+                                    <Border Background="#18FFFFFF" BorderBrush="#30FFFFFF"
+                                            BorderThickness="1" CornerRadius="10" Padding="10" Margin="0,0,0,10">
+                                        <StackPanel>
+                                            <TextBlock Text="Theme" Foreground="#DFFFFFFF" FontSize="12" Margin="2,0,0,6"/>
+                                            <Button x:Name="ThemeMenuButton" Height="34"
+                                                    Content="Midnight  ▾" Style="{StaticResource SecondaryButton}"
+                                                    Click="ThemeMenuButton_Click"/>
+                                            <TextBlock Text="Language" Foreground="#DFFFFFFF" FontSize="12" Margin="2,10,0,6"/>
+                                            <Button x:Name="LanguageButton" Height="34"
+                                                    Content="RU" Style="{StaticResource SecondaryButton}"
+                                                    Click="LanguageButton_Click" ToolTip="Switch language"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <TextBlock Text="SYSTEM" FontSize="11" FontWeight="SemiBold"
+                                               Foreground="#78FFFFFF" Margin="6,8,6,8"/>
+                                    <Border Background="#18FFFFFF" BorderBrush="#30FFFFFF"
+                                            BorderThickness="1" CornerRadius="10" Padding="10" Margin="0,0,0,10">
+                                        <StackPanel>
+                                            <TextBlock Text="Windows startup" Foreground="#DFFFFFFF" FontSize="12" Margin="2,0,0,6"/>
+                                            <Button x:Name="StartupButton" Height="34" Content="Check status"
+                                                    Style="{StaticResource SecondaryButton}"
+                                                    Click="StartupButton_Click"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <TextBlock x:Name="ClipboardPrivacyTitle" Text="PRIVACY" FontSize="11" FontWeight="SemiBold"
+                                               Foreground="#78FFFFFF" Margin="6,8,6,8"/>
+                                    <Border Background="#18FFFFFF" BorderBrush="#30FFFFFF"
+                                            BorderThickness="1" CornerRadius="10" Padding="10" Margin="0,0,0,10">
+                                        <StackPanel>
+                                            <CheckBox x:Name="ClipboardCaptureToggle"
+                                                      Content="Capture clipboard history"
+                                                      IsChecked="True"
+                                                      Foreground="#DFFFFFFF"
+                                                      Margin="2,2,0,8"
+                                                      Checked="ClipboardCapture_Changed"
+                                                      Unchecked="ClipboardCapture_Changed"/>
+                                            <TextBlock x:Name="ClipboardPrivacyDescription"
+                                                       Text="History is kept in memory only. Windows opt-out-marked content is ignored."
+                                                       Foreground="#98FFFFFF" FontSize="10" TextWrapping="Wrap"
+                                                       Margin="2,0,2,10"/>
+                                            <TextBlock x:Name="ClipboardExcludedAppsTitle"
+                                                       Text="Excluded applications (process names)"
+                                                       Foreground="#DFFFFFFF" FontSize="12" Margin="2,0,0,6"/>
+                                            <TextBox x:Name="ClipboardExcludedAppsBox"
+                                                     AcceptsReturn="True" TextWrapping="Wrap"
+                                                     VerticalScrollBarVisibility="Auto" Height="54"
+                                                     Background="#30232A35" Foreground="White"
+                                                     BorderBrush="#45FFFFFF" BorderThickness="1"
+                                                     Padding="8" FontSize="12"/>
+                                            <TextBlock x:Name="ClipboardExcludedAppsDescription"
+                                                       Text="Separate names with commas or new lines; for example, password-manager.exe"
+                                                       Foreground="#98FFFFFF" FontSize="10" TextWrapping="Wrap"
+                                                       Margin="2,6,2,8"/>
+                                            <Button x:Name="SaveClipboardExclusionsButton" Height="34"
+                                                    Content="Save exclusions"
+                                                    Style="{StaticResource SecondaryButton}"
+                                                    Click="SaveClipboardExclusions_Click"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <TextBlock Text="APPLICATIONS" FontSize="11" FontWeight="SemiBold"
+                                               Foreground="#78FFFFFF" Margin="6,8,6,8"/>
+                                    <Border Background="#18FFFFFF" BorderBrush="#30FFFFFF"
+                                            BorderThickness="1" CornerRadius="10" Padding="10">
+                                        <StackPanel>
+                                            <TextBlock Text="App discovery" Foreground="#DFFFFFFF" FontSize="12" Margin="2,0,0,6"/>
+                                            <Button x:Name="ScanAgainButton" Height="34" Content="Scan again"
+                                                    Style="{StaticResource SecondaryButton}"
+                                                    Click="RescanApps_Click"/>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
+
+                    <Border x:Name="CommandsPanel" Grid.RowSpan="3" Margin="0" CornerRadius="13,0,0,13"
+                            Background="#F0232A35" BorderBrush="#20FFFFFF" BorderThickness="0,0,1,0"
+                            Visibility="Collapsed" Panel.ZIndex="21" Opacity="0"
+                            RenderTransformOrigin="0.5,0.5">
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <TranslateTransform x:Name="CommandsPanelOffset" X="-24"/>
+                                <ScaleTransform x:Name="CommandsPanelScale" ScaleX="0.97" ScaleY="0.97"/>
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="112"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" Margin="12,0,12,8" BorderBrush="#20FFFFFF"
+                                    BorderThickness="0,0,0,1">
+                                <DockPanel>
+                                    <Button x:Name="CommandsCloseButton" DockPanel.Dock="Right"
+                                            Width="32" Height="32" VerticalAlignment="Center"
+                                            Content="‹" Style="{StaticResource SecondaryButton}"
+                                            FontSize="16" Padding="0" Click="CommandsCloseButton_Click"
+                                            ToolTip="Close commands"/>
+                                    <TextBlock Text="Commands" VerticalAlignment="Center" Margin="6,0,0,0"
+                                               FontSize="20" FontWeight="SemiBold" Foreground="White"/>
+                                </DockPanel>
+                            </Border>
+                            <TextBlock Grid.Row="1" Text="Choose a command to add it to the search box."
+                                       Margin="18,4,18,8" FontSize="11" Foreground="#90FFFFFF"
+                                       TextWrapping="Wrap"/>
+                            <ListBox x:Name="CommandsList" Grid.Row="2" Margin="12,0,12,12"
+                                     ItemsSource="{Binding Commands}"
+                                     Background="Transparent" BorderThickness="0" Foreground="White"
+                                     SelectionChanged="CommandsList_SelectionChanged"
+                                     ScrollViewer.CanContentScroll="False"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Padding" Value="8,7"/>
+                                        <Setter Property="Margin" Value="0,2"/>
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ListBoxItem">
+                                                    <Border x:Name="CommandItemSurface" Background="#12FFFFFF"
+                                                            CornerRadius="7" Padding="{TemplateBinding Padding}">
+                                                        <ContentPresenter/>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="CommandItemSurface" Property="Background" Value="#28FFFFFF"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsSelected" Value="True">
+                                                            <Setter TargetName="CommandItemSurface" Property="Background" Value="#32FFFFFF"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Name}" FontSize="13"
+                                                       FontWeight="SemiBold" Foreground="White"/>
+                                            <TextBlock Text="{Binding Description}" FontSize="10"
+                                                       Foreground="#A8FFFFFF" TextWrapping="Wrap"
+                                                       Margin="0,2,0,0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="48"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid MouseLeftButtonDown="TitleBar_MouseDown">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <TextBlock x:Name="ClockText" FontSize="13" FontWeight="Thin" Foreground="#F5FFFFFF"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock Text="  •  " FontSize="21" FontWeight="Thin" Foreground="#75FFFFFF"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock x:Name="CalendarText" FontSize="13" FontWeight="Thin" Foreground="#DDEFEFEF"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <Popup x:Name="ThemePopup" PlacementTarget="{Binding ElementName=ThemeMenuButton}"
+                           Placement="Bottom" StaysOpen="False" AllowsTransparency="True"
+                           Opened="ThemePopup_Opened" Closed="ThemePopup_Closed">
+                        <Border x:Name="ThemePopupSurface" Width="112" Margin="0,6,0,0" Padding="6" CornerRadius="10"
+                                Background="#E82A333D" BorderBrush="#45FFFFFF" BorderThickness="1"
+                                Opacity="0" RenderTransformOrigin="0.5,0">
+                            <Border.RenderTransform>
+                                <ScaleTransform x:Name="ThemePopupScale" ScaleX="1" ScaleY="0.85"/>
+                            </Border.RenderTransform>
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="18" ShadowDepth="4" Opacity="0.35" Color="#000000"/>
+                            </Border.Effect>
+                            <StackPanel>
+                                <Button Content="Midnight" Tag="Midnight" Style="{StaticResource SecondaryButton}" Margin="0,0,0,4" Click="ThemeButton_Click"/>
+                                <Button Content="Ocean" Tag="Ocean" Style="{StaticResource SecondaryButton}" Margin="0,0,0,4" Click="ThemeButton_Click"/>
+                                <Button Content="Sunset" Tag="Sunset" Style="{StaticResource SecondaryButton}" Margin="0,0,0,4" Click="ThemeButton_Click"/>
+                                <Button Content="Forest" Tag="Forest" Style="{StaticResource SecondaryButton}" Margin="0,0,0,4" Click="ThemeButton_Click"/>
+                                <Button Content="Aurora" Tag="Aurora" Style="{StaticResource SecondaryButton}" Margin="0,0,0,4" Click="ThemeButton_Click"/>
+                                <Button Content="Graphite" Tag="Graphite" Style="{StaticResource SecondaryButton}" Click="ThemeButton_Click"/>
+                            </StackPanel>
+                        </Border>
+                    </Popup>
+                </Grid>
+
+                <ScrollViewer x:Name="MainScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" Padding="28,12,28,28">
+                    <StackPanel>
+                        <TextBlock x:Name="MainHeading" Text="What do you want to do?" FontSize="28" FontWeight="SemiBold" Foreground="White" TextWrapping="Wrap"/>
+                        <TextBlock x:Name="MainSubheading" Text="Try typing a command or an app name" FontSize="13" Foreground="#90FFFFFF" Margin="0,7,0,14" TextWrapping="Wrap"/>
+
+                        <Border Background="#2AFFFFFF" BorderBrush="#3AFFFFFF" BorderThickness="1" CornerRadius="12" Padding="6">
+                            <StackPanel>
+                                <DockPanel>
+                                    <TextBox x:Name="CommandBox" Height="38" Padding="10,7,12,0" FontSize="15" Foreground="White"
+                                             Background="Transparent" BorderThickness="0" CaretBrush="#E6EDF2"
+                                             SelectionBrush="#BFFFFFFF" SelectionOpacity="0.35"
+                                             KeyDown="CommandBox_KeyDown" TextChanged="CommandBox_TextChanged"/>
+                                </DockPanel>
+                                <ListBox x:Name="AppSuggestions" ItemsSource="{Binding Suggestions}" MaxHeight="150" Style="{StaticResource SuggestionList}"
+                                         ItemContainerStyle="{StaticResource SuggestionItem}" Foreground="White"
+                                         SelectionChanged="AppSuggestions_SelectionChanged" Visibility="Collapsed" Opacity="0"
+                                         RenderTransformOrigin="0.5,0">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Height="42" Margin="8,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="30"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Border Width="24" Height="24" CornerRadius="7" Background="#35FFFFFF" BorderBrush="#45FFFFFF" BorderThickness="1">
+                                                    <TextBlock Text="↗" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                               FontSize="12" Foreground="#EFFFFFFF"/>
+                                                </Border>
+                                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="6,0,0,0">
+                                                    <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold" Foreground="#F8FFFFFF"/>
+                                                    <TextBlock Text="{Binding Description}" FontSize="11" Foreground="#A8FFFFFF"
+                                                               Margin="0,2,0,0"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.RenderTransform>
+                                        <ScaleTransform x:Name="SuggestionsScale" ScaleX="1" ScaleY="0.85"/>
+                                    </ListBox.RenderTransform>
+                                </ListBox>
+                            </StackPanel>
+                        </Border>
+
+                        <Border x:Name="ResultPanel" Background="#18FFFFFF" BorderBrush="#28FFFFFF" BorderThickness="1" CornerRadius="12" Padding="16" Margin="0,12,0,18">
+                            <TextBlock x:Name="ResultText" Text="Ready. Your command results will appear here." Foreground="#E5FFFFFF" TextWrapping="Wrap"/>
+                        </Border>
+
+                        <UniformGrid Columns="3" Margin="0,0,0,16">
+                            <Border Background="#22FFFFFF" BorderBrush="#2BFFFFFF" BorderThickness="1" CornerRadius="14" Padding="16" Margin="0,0,8,0">
+                                <StackPanel><TextBlock x:Name="SessionTitle" Text="Session" Foreground="#AAFFFFFF"/><TextBlock x:Name="SessionTimerText" Text="00:00:00" FontSize="24" FontWeight="SemiBold" Foreground="White" Margin="0,8,0,0"/><Button x:Name="StopButton" Content="Stop" Style="{StaticResource SecondaryButton}" Margin="0,12,0,0" Click="StopTimer_Click"/></StackPanel>
+                            </Border>
+                            <Border Background="#22FFFFFF" BorderBrush="#2BFFFFFF" BorderThickness="1" CornerRadius="14" Padding="16" Margin="4,0">
+                                <StackPanel><TextBlock x:Name="ScratchpadTitle" Text="Scratchpad" Foreground="#AAFFFFFF"/><TextBlock x:Name="NotesCountText" Text="0 notes" FontSize="24" FontWeight="SemiBold" Foreground="White" Margin="0,8,0,0"/><Button x:Name="ViewNotesButton" Content="View notes" Style="{StaticResource SecondaryButton}" Margin="0,12,0,0" Click="ViewNotes_Click"/></StackPanel>
+                            </Border>
+                            <Border Background="#22FFFFFF" BorderBrush="#2BFFFFFF" BorderThickness="1" CornerRadius="14" Padding="16" Margin="8,0,0,0">
+                                <StackPanel><TextBlock x:Name="ClipboardTitle" Text="Clipboard" Foreground="#AAFFFFFF"/><TextBlock x:Name="ClipboardCountText" Text="0 items" FontSize="24" FontWeight="SemiBold" Foreground="White" Margin="0,8,0,0"/><Button x:Name="ViewHistoryButton" Content="View history" Style="{StaticResource SecondaryButton}" Margin="0,12,0,0" Click="ViewClipboard_Click"/></StackPanel>
+                            </Border>
+                        </UniformGrid>
+
+                        <Border x:Name="HistoryPanel" Background="#1CFFFFFF" BorderBrush="#2BFFFFFF" BorderThickness="1" CornerRadius="14" Padding="18"
+                                Opacity="1" RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <TranslateTransform Y="0"/>
+                            </Border.RenderTransform>
+                            <StackPanel>
+                                <TextBlock x:Name="HistorySectionTitle" Text="Clipboard history" FontSize="18" FontWeight="SemiBold" Foreground="White" Margin="0,0,0,10"/>
+                                <Button x:Name="ClearClipboardHistoryButton"
+                                        Content="Clear clipboard history"
+                                        Style="{StaticResource SecondaryButton}"
+                                        Margin="0,0,0,8"
+                                        Click="ClearClipboardHistory_Click"/>
+                                <ListBox x:Name="HistoryList" ItemsSource="{Binding HistoryItems}" MaxHeight="180" Background="Transparent" BorderThickness="0" Foreground="White"
+                                         HorizontalContentAlignment="Stretch">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}" TextWrapping="Wrap"/>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

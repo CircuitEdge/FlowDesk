@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # FlowDesk
 
 FlowDesk is a lightweight, customizable command palette for Windows, designed to bring everyday tools, applications, and productivity features into one convenient interface.
@@ -59,3 +60,30 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 ---
 
 *FlowDesk — Your desktop, simplified.*
+=======
+# FlowDeck
+
+FlowDeck is a Windows desktop launcher and command palette.
+
+**Publisher:** snurrvix
+
+Features include application discovery, command shortcuts, timers, notes, themes, and configurable in-memory clipboard history.
+
+## Build
+
+Requires the .NET 9 SDK and Windows:
+
+powershell
+dotnet build FlowDeck.csproj --configuration Release
+
+
+## Publish
+
+The folder profile creates a self-contained, single-file `win-x64` build in `publish\`:
+
+powershell
+dotnet publish FlowDeck.csproj --property:PublishProfile=FolderProfile
+
+
+Clipboard history is kept in memory and can be disabled or cleared in Settings. Clipboard opt-out markers and configured application exclusions are honored.
+>>>>>>> 20d7182 (Initial FlowDeck source)
